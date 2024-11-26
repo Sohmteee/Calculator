@@ -89,10 +89,10 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
         isSign = true;
 
         evaluateExpression();
-        inputController.text = result + sign;
+        inputController.text = result.replaceAll(',', '') + sign;
       } else {
         evaluateExpression();
-        inputController.text = result;
+        inputController.text = result.replaceAll(',', '');
       }
       isEqualPressed = true;
     });
@@ -233,7 +233,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                               ? NumberFormat().format(percentageResult.toInt())
                               : NumberFormat().format(double.parse(
                                   percentageResult.toStringAsFixed(7)));
-                          inputController.text = result;
+                          inputController.text = result.replaceAll(',', '');
                         });
                       } catch (e) {
                         setState(() {
@@ -265,7 +265,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                           result = (toggledResult % 1 == 0)
                               ? toggledResult.toInt().toString()
                               : toggledResult.toString();
-                          inputController.text = result;
+                          inputController.text = result.replaceAll(',', '');
                         });
                       } catch (e) {
                         setState(() {
@@ -277,7 +277,8 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                     } else if (['÷', '×', '-', '+'].contains(key)) {
                       if (isEqualPressed) {
                         setState(() {
-                          inputController.text = result + key;
+                          inputController.text =
+                              result.replaceAll(',', '') + key;
                           isEqualPressed = false;
                           isSign = true;
                         });

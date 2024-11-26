@@ -295,7 +295,11 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                       }
                     } else {
                       if (isEqualPressed) {
-                        inputController.text = key;
+                        if (isSign) {
+                          inputController.text += key;
+                        } else {
+                          inputController.text = key;
+                        }
                         result = '0';
                         isEqualPressed = false;
                       } else {

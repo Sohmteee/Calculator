@@ -49,7 +49,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
       return;
     }
 
-    input = input.replaceAll('÷', '/').replaceAll('×', '*');
+    input = input.replaceAll(',', '').replaceAll('÷', '/').replaceAll('×', '*');
 
     isSign = inputController.text.isNotEmpty &&
         ['÷', '×', '-', '+']

@@ -43,6 +43,14 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     String input = inputController.text;
     input = input.replaceAll('÷', '/').replaceAll('×', '*');
 
+    isSign = inputController.text.isNotEmpty &&
+        ['÷', '×', '-', '+']
+            .contains(inputController.text[inputController.text.length - 1]);
+
+    if (isSign) {
+      input = input.substring(0, input.length - 1);
+    }
+
     try {
       Parser parser = Parser();
       Expression exp = parser.parse(input);

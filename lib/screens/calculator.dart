@@ -191,18 +191,25 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                       });
                     } else if (key == '⌫') {
                       if (inputController.text.isNotEmpty) {
-                        inputController.text = inputController.text
-                            .substring(0, inputController.text.length - 1);
+                        String currentInput = inputController.text;
+
+                        inputController.text =
+                            currentInput.substring(0, currentInput.length - 1);
+
                         setState(() {
-                          isSign = inputController.text.isNotEmpty &&
-                              ['÷', '×', '-', '+'].contains(inputController
-                                  .text[inputController.text.length - 1]);
+                          if (inputController.text.isNotEmpty &&
+                              ['÷', '×', '-', '+'].contains(
+                                  currentInput[currentInput.length - 1])) {
+                            String expressionBeforeSign = inputController.text
+                                .replaceAll(RegExp(r'[÷×\-+]$'), '');
+                            inputController.text = expressionBeforeSign;
+                            evaluateExpression();
+                          } else if (inputController.text.isNotEmpty) {
+                            evaluateExpression();
+                          } else {
+                            result = '0';
+                          }
                         });
-                        if (isSign) {
-                          evaluateAndSetInput();
-                        } else {
-                          evaluateExpression();
-                        }
                       }
                     } else if (key == '%') {
                       evaluateExpression();

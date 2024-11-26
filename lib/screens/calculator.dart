@@ -135,16 +135,16 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                   RichText(
                     textAlign: TextAlign.right,
                     text: TextSpan(
-                      children: inputController.text
-                          .replaceAll(',', '')
-                          .split('').map((char) {
+                      children: inputController.text.split('').map((char) {
                         Color color = ['÷', '×', '-', '+'].contains(char)
                             ? Colors.amber
                             : AppColors.grey(context);
                         return TextSpan(
                           text: ['÷', '×', '-', '+'].contains(char)
                               ? ' $char '
-                              : char,
+                              : (evaluationResult % 1 == 0)
+            ? NumberFormat().format(evaluationResult.toInt())
+            : NumberFormat('0.#######').format(evaluationResult);
                           style: TextStyle(
                             color: color,
                             fontSize: 15.sp,

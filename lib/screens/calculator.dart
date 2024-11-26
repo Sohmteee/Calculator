@@ -80,22 +80,22 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
 
   void evaluateAndSetInput() {
     String input = inputController.text.replaceAll(',', '');
-    if (input.isNotEmpty &&
-        ['÷', '×', '-', '+'].contains(input[input.length - 1])) {
-      String sign = input[input.length - 1];
-      input = input.substring(0, input.length - 1);
+    setState(() {
+      if (input.isNotEmpty &&
+          ['÷', '×', '-', '+'].contains(input[input.length - 1])) {
+        String sign = input[input.length - 1];
+        input = input.substring(0, input.length - 1);
 
-      setState(() {
         isSign = true;
-      });
 
-      evaluateExpression();
-      inputController.text = result + sign;
-    } else {
-      evaluateExpression();
-      inputController.text = result;
-    }
-    isEqualPressed = true;
+        evaluateExpression();
+        inputController.text = result + sign;
+      } else {
+        evaluateExpression();
+        inputController.text = result;
+      }
+      isEqualPressed = true;
+    });
   }
 
   @override

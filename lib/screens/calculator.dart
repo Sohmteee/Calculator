@@ -276,8 +276,11 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                       evaluateAndSetInput();
                     } else if (['÷', '×', '-', '+'].contains(key)) {
                       if (isEqualPressed) {
-                        inputController.text = result + key;
-                        isEqualPressed = false;
+                        setState(() {
+                          inputController.text = result + key;
+                          isEqualPressed = false;
+                          isSign = true;
+                        });
                       } else {
                         if (inputController.text.isNotEmpty && isSign) {
                           inputController.text = inputController.text

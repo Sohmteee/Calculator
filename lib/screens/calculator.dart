@@ -42,7 +42,12 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   void evaluateExpression() {
     String input = inputController.text;
 
-    if (input.trim().isEmpty) return;
+    if (input.trim().isEmpty) {
+      setState(() {
+        result = '0';
+      });
+      return;
+    }
 
     input = input.replaceAll('÷', '/').replaceAll('×', '*');
 

@@ -14,4 +14,4 @@ final darkSecondary = Color(0xFF292D36);
 final darkAccent = Color(0xFF272A32);
 final darkGrey = Color(0xFFD7D7D7);
 final darkRed = Color(0xFFFF6F6E);
-final darkGreen = Color(0xFF25FFFF);
+final darkGreen = Colors.green;

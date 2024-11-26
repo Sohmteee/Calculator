@@ -207,11 +207,8 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                               ['÷', '×', '-', '+'].contains(inputController
                                   .text[inputController.text.length - 1]);
                         });
-                        if (isSign) {
-                          evaluateAndSetInput();
-                        } else {
-                          evaluateExpression();
-                        }
+
+                        evaluateExpression();
                       }
                     } else if (key == '%') {
                       evaluateExpression();

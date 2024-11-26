@@ -19,6 +19,15 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8
     }
 
+    signingConfigs {
+        release {
+            storeFile file("C:\Users\Sohmtee\Documents\Coding Projects\Flutter Projects\apps\mobile\Calculator\app\android\app\equate-key.jks")
+            storePassword "password"
+            keyAlias "adadaedufoundation"
+            keyPassword "password"
+        }
+    }
+
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.equate.app"

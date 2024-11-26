@@ -142,12 +142,13 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                         return TextSpan(
                           text: ['÷', '×', '-', '+'].contains(char)
                               ? ' $char '
-                              : (double.parse(char.replaceAll(',', '')) % 1 ==
-                                      0)
+                              : (RegExp(r'^[0-9]+$').hasMatch(char) &&
+                                      double.parse(char.replaceAll(',', '')) %
+                                              1 ==
+                                          0)
                                   ? NumberFormat().format(
                                       int.parse(char.replaceAll(',', '')))
-                                  : NumberFormat('0.#######').format(
-                                      double.parse(char.replaceAll(',', ''))),
+                                  : char,
                           style: TextStyle(
                             color: color,
                             fontSize: 15.sp,

@@ -85,6 +85,10 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
       String sign = input[input.length - 1];
       input = input.substring(0, input.length - 1);
 
+      setState(() {
+        isSign = true;
+      });
+
       evaluateExpression();
       inputController.text = result + sign;
     } else {

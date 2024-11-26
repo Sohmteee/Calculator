@@ -140,12 +140,10 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                             ? Colors.amber
                             : AppColors.grey(context);
                         return TextSpan(
-                          text: (RegExp(r'^[0-9]$').hasMatch(char))
-                              ? NumberFormat()
-                                  .format(int.parse(char.replaceAll(',', '')))
-                              : ['÷', '×', '-', '+'].contains(char)
-                                  ? ' $char '
-                                  : char,
+                          text: ['÷', '×', '-', '+'].contains(char)
+                              ? ' $char '
+                              : NumberFormat('0.#######')
+                                  .format(char.replaceAll(',', '')),
                           style: TextStyle(
                             color: color,
                             fontSize: 15.sp,

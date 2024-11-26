@@ -135,7 +135,9 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                   RichText(
                     textAlign: TextAlign.right,
                     text: TextSpan(
-                      children: inputController.text.split('').map((char) {
+                      children: inputController.text
+                          .replaceAll(',', '')
+                          .split('').map((char) {
                         Color color = ['÷', '×', '-', '+'].contains(char)
                             ? Colors.amber
                             : AppColors.grey(context);

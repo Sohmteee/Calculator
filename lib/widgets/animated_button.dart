@@ -5,13 +5,11 @@ class AnimatedButton extends StatefulWidget {
     super.key,
     required this.onTap,
     required this.child,
-    this.isExpanded = false,
     this.color,
   });
 
   final VoidCallback? onTap;
   final String child;
-  final bool isExpanded;
   final Color? color;
 
   @override
@@ -24,8 +22,6 @@ class _AnimatedButtonState extends State<AnimatedButton> {
     return ZoomTapAnimation(
       onTap: widget.onTap,
       child: Container(
-        height: 60.h,
-        width: widget.isExpanded ? double.infinity : null,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.r),
         ),

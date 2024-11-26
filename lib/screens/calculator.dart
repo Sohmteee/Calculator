@@ -39,18 +39,8 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     });
   }
 
-  String formatNumber(String number) {
-    if (number.isEmpty) return '0';
-    try {
-      double value = double.parse(number.replaceAll(',', ''));
-      return NumberFormat().format(value);
-    } catch (e) {
-      return number;
-    }
-  }
-
   void evaluateExpression() {
-    String input = inputController.text.replaceAll(',', '');
+    String input = inputController.text;
     input = input.replaceAll('÷', '/').replaceAll('×', '*');
 
     try {
@@ -63,8 +53,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
       setState(() {
         result = (evaluationResult % 1 == 0)
             ? NumberFormat().format(evaluationResult.toInt())
-            : NumberFormat()
-                .format(double.parse(evaluationResult.toStringAsFixed(3)));
+            : NumberFormat('0.#######').format(evaluationResult);
       });
     } catch (e) {
       setState(() {
@@ -79,7 +68,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
         ['÷', '×', '-', '+'].contains(input[input.length - 1])) {
       String sign = input[input.length - 1];
       input = input.substring(0, input.length - 1);
-      inputController.text = formatNumber(input);
+
       evaluateExpression();
       inputController.text = result + sign;
     } else {
@@ -121,37 +110,40 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  TextField(
-                    controller: inputController,
-                    readOnly: true,
+                  RichText(
                     textAlign: TextAlign.right,
-                    scrollPhysics: BouncingScrollPhysics(),
-                    scrollController: scrollController,
-                    style: TextStyle(
-                      color: AppColors.grey(context),
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: '0',
-                      hintStyle: TextStyle(
-                        color: AppColors.grey(context),
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    text: TextSpan(
+                      children: inputController.text.split('').map((char) {
+                        Color color = ['÷', '×', '-', '+'].contains(char)
+                            ? Colors.amber
+                            : AppColors.grey(context);
+                        return TextSpan(
+                          text: ['÷', '×', '-', '+'].contains(char)
+                              ? ' $char '
+                              : char,
+                          style: TextStyle(
+                            color: color,
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'Poppins',
+                          ),
+                        );
+                      }).toList(),
                     ),
                   ),
                   10.sH,
                   Align(
                     alignment: Alignment.centerRight,
-                    child: Text(
-                      result,
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 30.sp,
-                        fontWeight: FontWeight.w600,
+                    child: FittedBox(
+                      child: Text(
+                        result,
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 30.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),
@@ -180,10 +172,13 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
               itemBuilder: (context, index) {
                 String key = keys[index];
                 Color? buttonColor;
-                if (index < 3) {
-                  buttonColor = Colors.red;
-                } else if (index % 4 == 3) {
-                  buttonColor = Colors.green;
+                if (index < 2) {
+                  buttonColor = AppColors.red(context);
+                } else if (index % 4 == 3 || index == 2) {
+                  buttonColor = Colors.amber;
+                }
+                if (index == keys.length - 1) {
+                  buttonColor = AppColors.green(context);
                 }
 
                 return AnimatedButton(
@@ -202,9 +197,12 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                           isSign = inputController.text.isNotEmpty &&
                               ['÷', '×', '-', '+'].contains(inputController
                                   .text[inputController.text.length - 1]);
-                          inputController.text =
-                              formatNumber(inputController.text);
                         });
+                        if (isSign) {
+                          evaluateAndSetInput();
+                        } else {
+                          evaluateExpression();
+                        }
                       }
                     } else if (key == '%') {
                       evaluateExpression();
@@ -216,7 +214,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                           result = (percentageResult % 1 == 0)
                               ? NumberFormat().format(percentageResult.toInt())
                               : NumberFormat().format(double.parse(
-                                  percentageResult.toStringAsFixed(3)));
+                                  percentageResult.toStringAsFixed(7)));
                           inputController.text = result;
                         });
                       } catch (e) {
@@ -225,9 +223,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                         });
                       }
                     } else if (key == '.') {
-                      // Handle the decimal button
                       if (inputController.text.isEmpty || isEqualPressed) {
-                        // Start with "0." if input is empty or result was just calculated
                         inputController.text = '0.';
                         result = '0';
                         isEqualPressed = false;
@@ -240,9 +236,24 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                       }
                       setState(() {
                         isSign = false;
-                        // inputController.text =
-                        //     formatNumber(inputController.text);
                       });
+                    } else if (key == '±') {
+                      evaluateExpression();
+                      try {
+                        double value = double.parse(result);
+                        double toggledResult = -value;
+
+                        setState(() {
+                          result = (toggledResult % 1 == 0)
+                              ? toggledResult.toInt().toString()
+                              : toggledResult.toString();
+                          inputController.text = result;
+                        });
+                      } catch (e) {
+                        setState(() {
+                          result = 'Error';
+                        });
+                      }
                     } else if (key == '=') {
                       evaluateAndSetInput();
                     } else if (['÷', '×', '-', '+'].contains(key)) {
@@ -271,8 +282,6 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                       }
                       setState(() {
                         isSign = false;
-                        inputController.text =
-                            formatNumber(inputController.text);
                       });
                       evaluateExpression();
                     }

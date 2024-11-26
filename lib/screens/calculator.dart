@@ -142,10 +142,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                         return TextSpan(
                           text: ['÷', '×', '-', '+'].contains(char)
                               ? ' $char '
-                              : (RegExp(r'^[0-9]+$').hasMatch(char) &&
-                                      double.parse(char.replaceAll(',', '')) %
-                                              1 ==
-                                          0)
+                              : (RegExp(r'^[0-9]$').hasMatch(char))
                                   ? NumberFormat().format(
                                       int.parse(char.replaceAll(',', '')))
                                   : char,

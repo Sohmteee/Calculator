@@ -1,13 +1,14 @@
 import os
 import subprocess
 import time
-import sys
+
 
 def run_command(command):
     result = subprocess.run(command, shell=True, capture_output=True, text=True)
     print(result.stdout)
     if result.stderr:
         print(result.stderr)
+
 
 def setup_git():
     print("It looks like you haven't added this project to your GitHub yet")
@@ -25,6 +26,7 @@ def setup_git():
     print("\nPushing git...")
     run_command("git push -u origin main")
 
+
 def update_git():
     print("\nChecking git status...")
     run_command("git status")
@@ -35,20 +37,18 @@ def update_git():
     print("\nPushing git...")
     run_command("git push")
 
+
 def main():
     while True:
-        if os.path.exists('.git'):
+        if os.path.exists(".git"):
             update_git()
         else:
             setup_git()
 
         print("\nWaiting for 60 seconds...")
         time.sleep(60)
-        os.system('cls' if os.name == 'nt' else 'clear')
+        os.system("cls" if os.name == "nt" else "clear")
+
 
 if __name__ == "__main__":
-    script_path = os.path.abspath(__file__)
-    if os.name == 'nt':
-        os.system(f'start cmd /k python "{script_path}"')
-    else:
-        os.system(f'x-terminal-emulator -e python3 "{script_path}"')
+    main()

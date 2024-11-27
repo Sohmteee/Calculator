@@ -21,7 +21,7 @@ def setup_git():
 
     print("\nCopy and Paste the link to your GitHub repository")
     print('It should look something like "https://github.com/<your username>/<name of repository>.git"')
-    rep = input("Paste the link here: ")
+    rep = input("Enter the name your GitHub repository here: ")
     run_command(f"git remote add origin {rep}")
     print("\nPushing git...")
     run_command("git push -u origin main")

@@ -1,6 +1,7 @@
 import os
 import subprocess
 import time
+import sys
 
 def run_command(command):
     result = subprocess.run(command, shell=True, capture_output=True, text=True)
@@ -46,7 +47,8 @@ def main():
         os.system('cls' if os.name == 'nt' else 'clear')
 
 if __name__ == "__main__":
+    script_path = os.path.abspath(__file__)
     if os.name == 'nt':
-        os.system('start cmd /k python ' + __file__)
+        os.system(f'start cmd /k python "{script_path}"')
     else:
-        os.system('x-terminal-emulator -e python3 ' + __file__)
+        os.system(f'x-terminal-emulator -e python3 "{script_path}"')

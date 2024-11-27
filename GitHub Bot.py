@@ -19,7 +19,6 @@ def setup_git():
     print("Added commit successfully")
     run_command("git branch -M main")
 
-
     rep = input("Enter the name your GitHub repository here: ")
     run_command(f"git remote add origin https://github.com/Sohmteee/{rep}.git")
     print("\nPushing git...")
@@ -47,4 +46,7 @@ def main():
         os.system('cls' if os.name == 'nt' else 'clear')
 
 if __name__ == "__main__":
-    main()
+    if os.name == 'nt':
+        os.system('start cmd /k python ' + __file__)
+    else:
+        os.system('x-terminal-emulator -e python3 ' + __file__)

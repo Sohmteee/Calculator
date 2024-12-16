@@ -3,9 +3,7 @@ export 'package:flutter/material.dart';
 
 
 // packages
-export 'package:flutter_animate/flutter_animate.dart';
 export 'package:flutter_screenutil/flutter_screenutil.dart';
-export 'package:provider/provider.dart';
 export 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 // constants
